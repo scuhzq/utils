@@ -1,11 +1,7 @@
-/lib
-
 /build
-.classpath
+/.idea
 /.gradle
 /.settings
-/bin
 
-/.idea
+*.iml
 *.ipr
-*.iws
