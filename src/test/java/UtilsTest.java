@@ -1,5 +1,6 @@
 import com.google.gson.*;
 import com.hzq.domain.GetMsgBean;
+import com.hzq.utils.HttpUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -7,9 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 
 /**
  * Created by hzq on 2017/5/16.
@@ -117,6 +116,20 @@ public class UtilsTest {
 			System.out.println(jsonElement.getAsInt());
 		}
 
+	}
+
+	@Test
+	public void testPostJson(){
+		Map<String, String> map = new HashMap<>();
+		map.put("timestamp", "1495787693000");
+		map.put("sign", "7f25d903da96fc301d3f3cd64eb8206d");
+		String json = "{\"systemIdList\": [\"jz1788c6e400874a4abc07f507bb97f531\"]}\n";
+		System.out.println(HttpUtils.postJson("http://admin.jiangzuotong.com/api/room/getUidAndRole", map, json));
+	}
+
+	@Test
+	public void test1(){
+		System.out.println(new Date(1495788739000L));
 	}
 
 }
