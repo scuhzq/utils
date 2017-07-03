@@ -31,24 +31,24 @@ public class FileUtilsTest {
 		Map<String, String> wishMap = new HashMap<>();
 		for(String string : zList){
 			String[] array = string.split("\t");
-			String key = array[11];
+			String key = array[13];
 			String values = array[0];
 			wishMap.put(key, values);
 		}
 
 		for(String string : fList){
 			String[] array = string.split("\t");
-			if(array[0].equals("成交时间")){
+			if(array[1].equals("成交时间")){
 				string += "\t" + "购买场景";
 				resultList.add(string);
 				continue;
 			}
 
-			if(dateTimeFormatter2.parseDateTime(array[0]).isBefore(dateTimeFormatter.parseDateTime("2017-05-01 00:00:00"))){
+			if(dateTimeFormatter2.parseDateTime(array[1]).isBefore(dateTimeFormatter.parseDateTime("2017-06-01 00:00:00"))){
 				continue;
 			}
 
-			String key = array[2];
+			String key = array[4];
 			if(wishMap.containsKey(key)){
 				string += "\t" + wishMap.get(key);
 			} else {
