@@ -1,6 +1,12 @@
+import com.duobeiyun.DuobeiYunClient;
 import com.google.gson.*;
 import com.hzq.domain.GetMsgBean;
 import com.hzq.utils.HttpUtils;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
+import org.apache.commons.io.FileUtils;
+import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -8,6 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -16,6 +23,8 @@ import java.util.*;
 public class UtilsTest {
 
 	private static final Logger logger = LoggerFactory.getLogger(UtilsTest.class);
+
+	private static final OkHttpClient client = new OkHttpClient();
 
 	/**
 	 * 先与@Test注解的方法执行
@@ -130,6 +139,67 @@ public class UtilsTest {
 	@Test
 	public void test1(){
 		System.out.println(new Date(1495788739000L));
+		HttpUtils.get("http://static3.duobeiyun.com/swf/3c28372463714a76b2ebe08500aba8af/slide-1.swf", null);
 	}
 
+	@Test
+	public void testReqVipKidSwf(){
+		try {
+			List<String> errList = new ArrayList<>();
+			String prefix = "http://static3.duobeiyun.com/swf/";
+			String midfix = "/slide-";
+			String suffix = ".swf";
+
+			File comDocFile = new File("/Users/hzq/comdoc.csv");
+			File errDocFile = new File("errDoc.csv");
+			List<String> list = FileUtils.readLines(comDocFile);
+
+
+		} catch (Throwable t){
+			logger.info(t.getMessage(), t);
+		}
+	}
+
+	@Test
+	public void testRequestSwf() throws IOException, InterruptedException {
+		List<String> errList = new ArrayList<>();
+		String prefix = "http://static3.duobeiyun.com/swf/";
+		String midfix = "/slide-";
+		String suffix = ".swf";
+
+		File comDocFile = new File("/Users/hzq/vipkiddoc.csv");
+		File errDocFile = new File("errDoc.csv");
+		List<String> list = FileUtils.readLines(comDocFile);
+
+		for(String string : list){
+			String[] array = string.split("\t");
+			String docId = array[0];
+			int slideCount = Integer.valueOf(array[1]);
+			for(int i = 1; i <= slideCount; i++){
+				String temp = prefix + docId + midfix + i +suffix;
+				try {
+					Request request = (new Request.Builder()).url(temp).get().build();
+					Response response = client.newCall(request).execute();
+					if(response == null || response.code()!= 200){
+						errList.add(string);
+					}
+				} catch (Throwable t){
+					logger.info(t.getMessage(), t);
+					errList.add(docId + "\t" + i + "\n");
+				}
+			}
+
+			logger.info("ok, " + string);
+		}
+		System.out.println(list.size());
+		if(list != null && list.size() > 0){
+			FileUtils.writeLines(errDocFile, list);
+		}
+	}
+
+	@Test
+	public void updateTimeByMinute(){
+		DuobeiYunClient duobeiYunClient = new DuobeiYunClient();
+		System.out.println(duobeiYunClient.updateRoomScheduleByMinute("jz0f9b472fd4f245b6a4165a5904d35f29", new DateTime().plusDays(2).toDate(), 55));
+	}
 }
