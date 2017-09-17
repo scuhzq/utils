@@ -1,4 +1,3 @@
-import com.duobeiyun.DuobeiYunClient;
 import com.google.gson.*;
 import com.hzq.domain.GetMsgBean;
 import com.hzq.utils.HttpUtils;
@@ -6,7 +5,6 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 import org.apache.commons.io.FileUtils;
-import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -199,7 +197,7 @@ public class UtilsTest {
 
 	@Test
 	public void updateTimeByMinute(){
-		DuobeiYunClient duobeiYunClient = new DuobeiYunClient();
-		System.out.println(duobeiYunClient.updateRoomScheduleByMinute("jz0f9b472fd4f245b6a4165a5904d35f29", new DateTime().plusDays(2).toDate(), 55));
+//		DuobeiYunClient duobeiYunClient = new DuobeiYunClient();
+//		System.out.println(duobeiYunClient.updateRoomScheduleByMinute("jz0f9b472fd4f245b6a4165a5904d35f29", new DateTime().plusDays(2).toDate(), 55));
 	}
 }
